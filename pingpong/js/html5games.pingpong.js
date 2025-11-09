@@ -6,6 +6,13 @@ const KEY = {
 };
 var pingpong = {};
 pingpong.pressedKeys = [];
+pingpong.ball = {
+  speed: 5,
+  x: 150,
+  y: 100,
+  directionX: 1,
+  directionY: 1,
+};
 
 $(function () {
   // set interval to call game loop every 30 milliseconds
@@ -21,6 +28,7 @@ $(function () {
 });
 
 function gameLoop() {
+  moveBall();
   movePaddles();
 }
 
@@ -49,4 +57,43 @@ function movePaddles() {
     var top = parseInt($("#paddleA").css("top"));
     $("#paddleA").css("top", top + 5);
   }
+}
+
+function moveBall() {
+  // Move the ball
+
+  // reference useful variables
+  var playgroundHeight = parseInt($("#playground").css("height"));
+  var playgroundWidth = parseInt($("#playground").css("width"));
+  var ball = pingpong.ball;
+  // check playground boundary
+  // check bottom edge
+  var ballDiameter = parseInt($("#ball").css("width"));
+
+  if (ball.y + ball.speed * ball.directionY > playgroundHeight) {
+    ball.directionY = -1;
+  }
+
+  // check top edge
+  if (ball.y + ball.speed * ball.directionY < 0) {
+    ball.directionY = 1;
+  }
+  // check right edge
+  if (ball.x + ball.speed * ball.directionX > playgroundWidth) {
+    ball.directionX = -1;
+  }
+  // check left edge
+  if (ball.x + ball.speed * ball.directionX < 0) {
+    ball.directionX = 1;
+  }
+  ball.x += ball.speed * ball.directionX;
+  ball.y += ball.speed * ball.directionY;
+
+  // check moving paddle here, later.
+
+  // actually move the ball with speed and direction
+  $("#ball").css({
+    left: ball.x,
+    top: ball.y,
+  });
 }

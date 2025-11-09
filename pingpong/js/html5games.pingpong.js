@@ -4,7 +4,10 @@ const KEY = {
   UP: 38,
   DOWN: 40,
 };
-var pingpong = {};
+var pingpong = {
+  scoreA: 0, // score for player A
+  scoreB: 0, // score for player B
+};
 pingpong.pressedKeys = [];
 pingpong.ball = {
   speed: 5,
@@ -122,6 +125,8 @@ function moveBall() {
   // check right edge
   if (ball.x + ball.speed * ball.directionX > playgroundWidth) {
     // player B lost.
+    pingpong.scoreA++;
+    $("#scoreA").text(pingpong.scoreA);
     // reset the ball;
     ball.x = 250;
     ball.y = 100;
@@ -134,6 +139,8 @@ function moveBall() {
   // check left edge
   if (ball.x + ball.speed * ball.directionX < 0) {
     // player A lost.
+    pingpong.scoreB++;
+    $("#scoreB").text(pingpong.scoreB);
     // reset the ball;
     ball.x = 150;
     ball.y = 100;

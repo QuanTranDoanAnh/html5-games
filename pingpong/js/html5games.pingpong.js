@@ -89,7 +89,60 @@ function moveBall() {
   ball.x += ball.speed * ball.directionX;
   ball.y += ball.speed * ball.directionY;
 
-  // check moving paddle here, later.
+  // check moving paddle here.
+  // check left paddle
+  var paddleAX =
+    parseInt($("#paddleA").css("left")) + parseInt($("#paddleA").css("width"));
+  var paddleAYBottom =
+    parseInt($("#paddleA").css("top")) + parseInt($("#paddleA").css("height"));
+  var paddleAYTop = parseInt($("#paddleA").css("top"));
+
+  if (ball.x + ball.speed * ball.directionX < paddleAX) {
+    if (
+      ball.y + ball.speed * ball.directionY <= paddleAYBottom &&
+      ball.y + ball.speed * ball.directionY >= paddleAYTop
+    ) {
+      ball.directionX = 1;
+    }
+  }
+  // check right paddle
+  var paddleBX = parseInt($("#paddleB").css("left"));
+  var paddleBYBottom =
+    parseInt($("#paddleB").css("top")) + parseInt($("#paddleB").css("height"));
+  var paddleBYTop = parseInt($("#paddleB").css("top"));
+  if (ball.x + ball.speed * ball.directionX >= paddleBX) {
+    if (
+      ball.y + ball.speed * ball.directionY <= paddleBYBottom &&
+      ball.y + ball.speed * ball.directionY >= paddleBYTop
+    ) {
+      ball.directionX = -1;
+    }
+  }
+
+  // check right edge
+  if (ball.x + ball.speed * ball.directionX > playgroundWidth) {
+    // player B lost.
+    // reset the ball;
+    ball.x = 250;
+    ball.y = 100;
+    $("#ball").css({
+      left: ball.x,
+      top: ball.y,
+    });
+    ball.directionX = -1;
+  }
+  // check left edge
+  if (ball.x + ball.speed * ball.directionX < 0) {
+    // player A lost.
+    // reset the ball;
+    ball.x = 150;
+    ball.y = 100;
+    $("#ball").css({
+      left: ball.x,
+      top: ball.y,
+    });
+    ball.directionX = 1;
+  }
 
   // actually move the ball with speed and direction
   $("#ball").css({
